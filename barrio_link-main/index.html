@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>BarrioLink – Consume Local Durango | Hack Days 2026</title>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+<nav>
+  <div class="logo">
+    <img src="IMG/logo_app.png" alt="Logo BarrioLink" class="logo-img">
+    <span>BarrioLink</span>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#objetivo">Objetivo</a></li>
+    <li><a href="#features">Solución</a></li>
+    <li id="nav-registro" class="solo-negocio"><a href="#registro">Registrar Negocio</a></li>
+    <li id="nav-rutas" class="solo-persona"><a href="#rutas">Rutas</a></li>
+    <li id="nav-explorar" class="solo-persona"><a href="#explorar">Explorar Durango</a></li>
+    <li id="nav-recompensas" class="solo-persona"><a href="#recompensas">Recompensas</a></li>
+    <div class="user-points solo-persona">
+      <span>💰 Saldo: <b id="coin-count">0</b> pts</span>
+    </div>
+  </ul>
+
+  <div class="vista-switcher">
+    <button class="nav-cta" onclick="cambiarVista('persona')">Soy Ciudadano</button>
+    <button class="nav-cta" onclick="cambiarVista('negocio')">Soy Negocio</button>
+  </div>
+
+  <button class="nav-cta"
+    onclick="document.getElementById('registro').scrollIntoView({behavior:'smooth'})">
+    Cerrar sesion
+  </button>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="hero-content">
+
+    <!-- Texto principal -->
+    <div>
+      <div class="hero-badge">
+        <div class="badge-dot"></div>
+        Hack Days 2026 · Durango
+      </div>
+      <h1>Consume Local.<br><em>Conecta tu Barrio.</em></h1>
+      <p>El aparador digital interactivo que pone a los comercios de Durango en el mapa. Sencillo para el comerciante, poderoso para el municipio.</p>
+      <div class="hero-actions">
+        <a href="#registro" class="btn-primary">Registra tu Negocio</a>
+        <a href="#rutas"    class="btn-outline">Explorar Rutas</a>
+      </div>
+    </div>
+
+    <!-- Visual / mapa demo -->
+    <div class="hero-visual">
+      <div class="map-card">
+
+        <!-- Barra superior estilo app -->
+        <div class="map-header">
+          <div class="map-header-dots">
+            <span class="dot-r"></span>
+            <span class="dot-y"></span>
+            <span class="dot-g"></span>
+          </div>
+          <div class="map-title">BarrioLink · Mapa Interactivo</div>
+        </div>
+
+        <div class="map-body">
+          <!-- Búsqueda -->
+          <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text"
+              placeholder="Busca antojitos, artesanías, mezcal…"
+              readonly>
+          </div>
+
+          <!-- Filtros por categoría -->
+          <div class="category-chips">
+            <button class="chip active">Todos</button>
+            <button class="chip">🌮 Antojitos</button>
+            <button class="chip">🏺 Artesanías</button>
+            <button class="chip">🥃 Mezcal</button>
+            <button class="chip">🛠 Servicios</button>
+          </div>
+
+          <!-- Mapa simulado con pins -->
+          <div class="fake-map">
+            <svg class="map-grid" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M10 0L0 0 0 10" fill="none"
+                    stroke="rgba(199,125,255,0.5)" stroke-width="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="100" height="100" fill="url(#grid)"/>
+              <line x1="0"  y1="50" x2="100" y2="50"  stroke="rgba(0,229,192,0.3)"   stroke-width="0.8"/>
+              <line x1="0"  y1="70" x2="100" y2="70"  stroke="rgba(199,125,255,0.2)" stroke-width="0.5"/>
+              <line x1="30" y1="0"  x2="30"  y2="100" stroke="rgba(0,229,192,0.3)"   stroke-width="0.8"/>
+              <line x1="65" y1="0"  x2="65"  y2="100" stroke="rgba(199,125,255,0.2)" stroke-width="0.5"/>
+            </svg>
+
+            <!-- Pins del mapa -->
+            <div class="pin pin-food"    style="left:30%;top:55%">
+              <div class="pin-dot"><span>🌮</span></div>
+              <div class="pin-label">Antojitos Lupe</div>
+            </div>
+            <div class="pin pin-craft"   style="left:60%;top:40%">
+              <div class="pin-dot"><span>🏺</span></div>
+              <div class="pin-label">Artesanías Don Pepe</div>
+            </div>
+            <div class="pin pin-service" style="left:75%;top:65%">
+              <div class="pin-dot"><span>🔧</span></div>
+              <div class="pin-label">Taller El Güero</div>
+            </div>
+
+            <!-- Tarjeta flotante de negocio -->
+            <div class="floating-card" style="right:8px;top:8px;max-width:130px">
+              <div class="fc-rating">★★★★★</div>
+              <div class="fc-name">Antojitos Lupe</div>
+              <div class="fc-type">Comida tradicional</div>
+              <div class="fc-badge">Abierto ahora</div>
+            </div>
+          </div><!-- /fake-map -->
+        </div><!-- /map-body -->
+      </div><!-- /map-card -->
+    </div><!-- /hero-visual -->
+
+  </div><!-- /hero-content -->
+</section>
+
+
+<!-- ══════════════════════════════════════
+     OBJETIVO / ESTADÍSTICAS
+════════════════════════════════════════ -->
+<section id="objetivo" style="padding:4rem 2rem; background:var(--surface);">
+  <div class="container">
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="stats-row reveal">
+      <div class="stat-card">
+        <div class="stat-num stat-accent">+4,200</div>
+        <div class="stat-label">Comercios en Durango sin presencia digital</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num stat-accent2">&lt;2min</div>
+        <div class="stat-label">Tiempo para registrar tu negocio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num stat-accent3">2</div>
+        <div class="stat-label">Vertientes: Fomento Económico + Turismo</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:#ffd700">100%</div>
+        <div class="stat-label">Tecnología accesible para cualquier edad</div>
+      </div>
+    </div>
+
+    <!-- Descripción del objetivo -->
+    <div style="max-width:700px;margin:0 auto;text-align:center" class="reveal">
+      <div class="section-label">Objetivo del proyecto</div>
+      <h2 class="section-title">Atacar dos frentes al mismo tiempo</h2>
+      <p style="color:var(--text-muted);line-height:1.75;font-size:1.05rem">
+        Este proyecto impulsa el consumo local a través del Fomento Económico y crea
+        un catálogo vivo de productos y servicios para locales y visitantes (Turismo),
+        aplicando herramientas novedosas y disruptivas, pero sencillas,
+        que cualquiera pueda utilizar.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FEATURES / SOLUCIÓN TECNOLÓGICA
+════════════════════════════════════════ -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Solución tecnológica</div>
+    <h2 class="section-title">Aparador Digital Interactivo</h2>
+    <hr class="section-line">
+
+    <div class="features-grid reveal">
+
+      <div class="feature-card fc1">
+        <div class="feature-icon fi1">📍</div>
+        <h3>Mapeo e Identificación</h3>
+        <p>Ciudadanos y turistas visualizan negocios cercanos según su ubicación,
+        con filtros por categoría: antojitos duranguenses, artesanías con alacrán,
+        mezcal duranguense, servicios para el hogar y más.</p>
+      </div>
+
+      <div class="feature-card fc2">
+        <div class="feature-icon fi2">⚡</div>
+        <h3>Registro Ultra Fácil</h3>
+        <p>Interfaz diseñada para comerciantes de cualquier edad. Sin conocimientos
+        tecnológicos. Registro en menos de 2 minutos mediante asistente de voz con IA,
+        chat amigable o formulario guiado.</p>
+      </div>
+
+      <div class="feature-card fc3">
+        <div class="feature-icon fi3">🗺️</div>
+        <h3>Rutas de Consumo</h3>
+        <p>Generación de "Rutas de Barrio" temáticas para incentivar a ciudadanos
+        y turistas a recorrer y descubrir zonas comerciales específicas del
+        municipio de Durango.</p>
+      </div>
+
+      <div class="feature-card fc4">
+        <div class="feature-icon fi4">🤖</div>
+        <h3>Asistente IA Conversacional</h3>
+        <p>Chatbot inteligente que ayuda a los comerciantes a llenar su perfil,
+        responder dudas y actualizar su información en cualquier momento,
+        sin complicaciones técnicas.</p>
+      </div>
+
+      <div class="feature-card fc5">
+        <div class="feature-icon fi5">📊</div>
+        <h3>Catálogo Vivo</h3>
+        <p>Panel de control simple para que el comerciante actualice productos,
+        horarios, precios y fotos. Los datos se reflejan en tiempo real en el
+        mapa interactivo del municipio.</p>
+      </div>
+
+      <div class="feature-card fc6">
+        <div class="feature-icon fi6">📲</div>
+        <h3>App + Web</h3>
+        <p>Solución de rápido despliegue accesible desde cualquier dispositivo.
+        Sin instalar nada adicional. Compatible con teléfonos básicos,
+        tablets y computadoras.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     CÓMO FUNCIONA
+════════════════════════════════════════ -->
+<section id="como-funciona">
+  <div class="container">
+    <div class="section-label" style="text-align:center">Proceso</div>
+    <h2 class="section-title" style="text-align:center">¿Cómo funciona?</h2>
+    <hr class="section-line" style="margin:0 auto 3rem">
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Regístrate</h3>
+        <p>Llena el formulario, usa el asistente de voz o chatea con el bot.
+        En menos de 2 minutos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Aparece en el Mapa</h3>
+        <p>Tu negocio queda visible para miles de ciudadanos y turistas
+        en Durango al instante.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Únete a Rutas</h3>
+        <p>Tu comercio aparece en las "Rutas de Barrio" temáticas que generan
+        tráfico de visitantes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Crece y Actualiza</h3>
+        <p>Actualiza tu catálogo cuando quieras. Recibe estadísticas de
+        visitas y contactos generados.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     REGISTRO DE NEGOCIO
+════════════════════════════════════════ -->
+<section id="registro" class="solo-negocio">
+  <div class="container">
+    <div class="register-layout">
+
+      <!-- Info lateral -->
+      <div class="register-info reveal">
+        <div class="section-label">Únete al mapa</div>
+        <h2 class="section-title">Registra tu Negocio Gratis</h2>
+        <p>Dirigido a micro, pequeños y medianos comercios de Durango:
+        tienditas de la esquina, mercados municipales, artesanos,
+        autoempleados, restaurantes, talleres y más.</p>
+        <ul class="benefits-list">
+          <li><span class="benefit-check">✓</span> Sin costo, sin complicaciones técnicas</li>
+          <li><span class="benefit-check">✓</span> Registro guiado por voz con IA</li>
+          <li><span class="benefit-check">✓</span> Aparece en el mapa interactivo municipal</li>
+          <li><span class="benefit-check">✓</span> Incluido en Rutas de Barrio temáticas</li>
+          <li><span class="benefit-check">✓</span> Catálogo de productos y servicios actualizable</li>
+          <li><span class="benefit-check">✓</span> Visibilidad para turistas y ciudadanos locales</li>
+          <li><span class="benefit-check">✓</span> Soporte municipal del Municipio de Durango</li>
+        </ul>
+      </div>
+
+      <!-- Formulario -->
+      <div class="reveal">
+        <div class="form-card">
+          <div class="form-title">Formulario de Registro</div>
+          <div class="form-sub">Completa los datos básicos de tu negocio</div>
+
+          <!-- Asistente de voz -->
+          <div class="voice-section">
+            <button class="voice-btn" id="voiceBtn"
+              onclick="toggleVoice()" title="Activar asistente de voz">🎙️</button>
+            <div class="voice-info">
+              <p>Asistente de Voz con IA</p>
+              <span id="voiceStatus">Haz clic para registrarte con tu voz</span>
+            </div>
+          </div>
+
+          <!-- Formulario principal -->
+          <form id="registroForm" novalidate onsubmit="submitForm(event)">
+
+            <div class="form-row">
+              <div class="form-group" id="fg-nombre">
+                <label>Nombre del Negocio *</label>
+                <input type="text" id="nombre"
+                  placeholder="Ej: Antojitos La Paloma"
+                  oninput="validateField('nombre')">
+                <div class="error-msg">Este campo es requerido (mín. 2 caracteres)</div>
+              </div>
+              <div class="form-group" id="fg-propietario">
+                <label>Nombre del Propietario *</label>
+                <input type="text" id="propietario"
+                  placeholder="Tu nombre completo"
+                  oninput="validateField('propietario')">
+                <div class="error-msg">Este campo es requerido</div>
+              </div>
+            </div>
+
+            <div class="form-group" id="fg-categoria">
+              <label>Categoría del Negocio *</label>
+              <select id="categoria" onchange="validateField('categoria')">
+                <option value="">-- Selecciona una categoría --</option>
+                <option>🌮 Antojitos duranguenses</option>
+                <option>🏺 Artesanías con alacrán</option>
+                <option>🥃 Mezcal duranguense</option>
+                <option>🛒 Tiendita de la esquina</option>
+                <option>🏪 Mercado municipal</option>
+                <option>🍽️ Restaurante</option>
+                <option>🔧 Taller / Servicio técnico</option>
+                <option>💇 Salón / Belleza</option>
+                <option>👗 Ropa / Textiles</option>
+                <option>🌿 Hierbas / Remedios naturales</option>
+                <option>🎨 Arte / Manualidades</option>
+                <option>🏠 Servicios para el hogar</option>
+                <option>Otro</option>
+              </select>
+              <div class="error-msg">Selecciona una categoría</div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" id="fg-telefono">
+                <label>Teléfono / WhatsApp *</label>
+                <input type="tel" id="telefono"
+                  placeholder="618 123 4567"
+                  oninput="validatePhone()">
+                <div class="error-msg">Ingresa un teléfono válido (10 dígitos)</div>
+              </div>
+              <div class="form-group" id="fg-horario">
+                <label>Horario de Atención *</label>
+                <input type="text" id="horario"
+                  placeholder="Ej: Lun-Sáb 9am-8pm"
+                  oninput="validateField('horario')">
+                <div class="error-msg">Indica el horario de atención</div>
+              </div>
+            </div>
+
+            <div class="form-group" id="fg-direccion">
+              <label>Dirección o Colonia *</label>
+              <input type="text" id="direccion"
+                placeholder="Calle, número, colonia, Durango"
+                oninput="validateField('direccion')">
+              <div class="error-msg">Ingresa la dirección de tu negocio</div>
+            </div>
+
+            <div class="form-group" id="fg-descripcion">
+              <label>Descripción breve de tus productos/servicios *</label>
+              <textarea id="descripcion"
+                placeholder="Ej: Vendemos gorditas, tamales y atole artesanal. También tenemos catering para eventos…"
+                oninput="validateField('descripcion')"></textarea>
+              <div class="error-msg">Describe brevemente tu negocio (mín. 2 caracteres)</div>
+            </div>
+
+            <div class="form-group" id="fg-email">
+              <label>Correo electrónico (opcional)</label>
+              <input type="email" id="email"
+                placeholder="tu@correo.com"
+                oninput="validateEmail()">
+              <div class="error-msg">Ingresa un correo válido (ej: nombre@dominio.com)</div>
+            </div>
+
+            <div class="form-group" id="fg-redes">
+              <label>Redes sociales (opcional)</label>
+              <input type="text" id="redes"
+                placeholder="Facebook, Instagram, TikTok…"
+                oninput="validateRedes()">
+              <div class="error-msg">Ingresa al menos 3 caracteres</div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              🗺️ Registrar mi Negocio en el Mapa
+            </button>
+            <p class="form-note">
+              Al registrarte aceptas que tu negocio aparezca en el mapa público
+              del Municipio de Durango. Sin costo.
+            </p>
+
+          </form><!-- /registroForm -->
+        </div><!-- /form-card -->
+      </div>
+
+    </div><!-- /register-layout -->
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     RUTAS DE CONSUMO
+════════════════════════════════════════ -->
+<section id="rutas" class="solo-persona">
+  <div class="container">
+    <div class="section-label">Descubre Durango</div>
+    <h2 class="section-title">Rutas de Consumo Local</h2>
+    <p class="section-sub">Recorridos temáticos con actividades concretas, horarios y presupuestos.</p>
+
+    <div class="routes-grid">
+      
+      <!-- Ruta 1: Corazón Histórico -->
+      <div class="route-card" onclick="toggleRoute(this)">
+        <div class="route-header">
+          <div class="route-icon">🏛️</div>
+          <div class="reward-badge">💰 200 pts</div>
+          <h3>Ruta del Corazón Histórico</h3>
+          <p>Lo mejor del centro: historia, museos y vistas panorámicas.</p>
+        </div>
+        <div class="route-details" style="display:none;">
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li><strong>09:30:</strong> Desayuno en "El Zocabón" ($150-250).</li>
+            <li><strong>11:30:</strong> Museo Francisco Villa ($25).</li>
+            <li><strong>13:30:</strong> Comida en Paseo Constitución ($200-400).</li>
+            <li><strong>15:30:</strong> Museo Túnel de Minería ($20).</li>
+            <li><strong>17:30:</strong> Teleférico ($80).</li>
+          </ul>
+        </div>
+        <div class="route-footer"><div class="route-meta">📍 5 paradas · 2km</div></div>
+      </div>
+
+      <!-- Ruta 2: Viejo Oeste -->
+      <div class="route-card" onclick="toggleRoute(this)">
+        <div class="route-header">
+          <div class="route-icon">🤠</div>
+          <div class="reward-badge">💰 200 pts</div>
+          <h3>Ruta del Viejo Oeste</h3>
+          <p>Sets de cine, espectáculos vaqueros y naturaleza.</p>
+        </div>
+        <div class="route-details" style="display:none;">
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li><strong>10:00:</strong> Desayuno en Mercado Gómez Palacio ($80-120).</li>
+            <li><strong>12:00:</strong> Paseo del Viejo Oeste ($50 + show).</li>
+            <li><strong>15:00:</strong> Comida regional en el parque ($150-250).</li>
+            <li><strong>17:00:</strong> Paseo Guadiana y Sahuatoba (Gratis).</li>
+          </ul>
+        </div>
+        <div class="route-footer"><div class="route-meta">📍 4 paradas · 5km</div></div>
+      </div>
+
+      <!-- Ruta 3: Académica -->
+      <div class="route-card" onclick="toggleRoute(this)">
+        <div class="route-header">
+          <div class="route-icon">🎓</div>
+          <div class="reward-badge">💰 200 pts</div>
+          <h3>Ruta Académica y del Saber</h3>
+          <p>Explora la historia intelectual de Durango, sus bibliotecas y facultades históricas.</p>
+        </div>
+        <div class="route-details" style="display:none;">
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li><strong>10:00:</strong> Edificio Central de la UJED (Arquitectura e historia universitaria).</li>
+            <li><strong>12:00:</strong> Biblioteca Central Pública (Referencia arquitectónica y cultural).</li>
+            <li><strong>14:00:</strong> Comida en cafeterías cercanas a la zona universitaria.</li>
+            <li><strong>16:00:</strong> Instituto de Bellas Artes (Recorridos y exposiciones).</li>
+            <li><strong>18:00:</strong> Museo de Arte Contemporáneo "Guillermo Ceniceros".</li>
+          </ul>
+        </div>
+        <div class="route-footer"><div class="route-meta">📍 5 paradas · 2.5km</div></div>
+      </div>
+
+      <!-- Ruta 4: Artesanías -->
+      <div class="route-card" onclick="toggleRoute(this)">
+        <div class="route-header">
+          <div class="route-icon">🏺</div>
+          <div class="reward-badge">💰 200 pts</div>
+          <h3>Ruta de las Artesanías</h3>
+          <p>El arte en cuero, madera y alacrán.</p>
+        </div>
+        <div class="route-details" style="display:none;">
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li><strong>10:00:</strong> Desayuno y visita al Mercado de Artesanías ($120).</li>
+            <li><strong>12:00:</strong> Taller de artesanía en madera ($150).</li>
+            <li><strong>14:30:</strong> Comida artesanal en el centro ($200).</li>
+            <li><strong>17:00:</strong> Galería de arte local (Gratis).</li>
+          </ul>
+        </div>
+        <div class="route-footer"><div class="route-meta">📍 4 paradas · 1.2km</div></div>
+      </div>
+
+      <!-- Ruta 5: Mezcal -->
+      <div class="route-card" onclick="toggleRoute(this)">
+        <div class="route-header">
+          <div class="route-icon">🥃</div>
+          <div class="reward-badge">💰 200 pts</div>
+          <h3>Ruta del Mezcal</h3>
+          <p>Cultura, cata y proceso del Agave Cenizo.</p>
+        </div>
+        <div class="route-details" style="display:none;">
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li><strong>12:00:</strong> Visita a mezcalería artesanal (cata $150).</li>
+            <li><strong>14:30:</strong> Comida maridaje con mezcal ($300).</li>
+            <li><strong>17:00:</strong> Charla sobre producción local (Gratis).</li>
+            <li><strong>20:00:</strong> Noche de mezcal y botana ($200).</li>
+          </ul>
+        </div>
+        <div class="route-footer"><div class="route-meta">📍 4 paradas · 2km</div></div>
+      </div>
+
+      <!-- Ruta 6: Mercado al Barrio -->
+      <div class="route-card" onclick="toggleRoute(this)">
+        <div class="route-header">
+          <div class="route-icon">🛒</div>
+          <div class="reward-badge">💰 200 pts</div>
+          <h3>Ruta del Mercado al Barrio</h3>
+          <p>La vida cotidiana y el comercio local.</p>
+        </div>
+        <div class="route-details" style="display:none;">
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li><strong>09:00:</strong> Desayuno en mercado local ($80).</li>
+            <li><strong>11:00:</strong> Recorrido por tiendas de insumos típicos ($50).</li>
+            <li><strong>14:00:</strong> Comida corrida (menú del día) ($90).</li>
+            <li><strong>16:00:</strong> Visita a plaza barrial (Gratis).</li>
+          </ul>
+        </div>
+        <div class="route-footer"><div class="route-meta">📍 4 paradas · 1.5km</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     EXPLORAR DURANGO
+════════════════════════════════════════ -->
+<section id="explorar" class="solo-persona">
+  <div class="container">
+
+    <div class="section-label">Explora Durango</div>
+    <h2 class="section-title">Lugares Recomendados</h2>
+
+    <div class="filter-buttons">
+      <button onclick="filtrar('todos')">Todos</button>
+      <button onclick="filtrar('restaurante')">🍽 Restaurantes</button>
+      <button onclick="filtrar('museo')">🏛 Museos</button>
+      <button onclick="filtrar('cultural')">🎭 Culturales</button>
+      <button onclick="filtrar('entretenimiento')">🎡 Entretenimiento</button>
+      <button onclick="filtrar('turistico')">🌄 Turísticos</button>
+    </div>
+
+    <div class="lugares-grid" id="lugaresContainer">
+
+      <!-- RESTAURANTES -->
+      <div class="lugar-card"
+           data-categoria="restaurante"
+           data-rating="5.0"
+           data-nombre="El Zocabón"
+           data-horario="8:00 AM - 10:00 PM"
+           data-costo="$200 - $400 MXN"
+           data-direccion="Centro Histórico"
+           data-info="Restaurante tradicional duranguense famoso por sus cortes y platillos regionales."
+           data-curiosidad="Es considerado uno de los restaurantes más conocidos del centro de Durango.">
+        <h3>El Zocabón</h3>
+        <p>⭐ 5.0</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="restaurante"
+           data-rating="4.8"
+           data-nombre="Casa Abuela"
+           data-horario="9:00 AM - 9:00 PM"
+           data-costo="$150 - $300 MXN"
+           data-direccion="Zona Centro"
+           data-info="Comida casera con recetas tradicionales duranguenses."
+           data-curiosidad="Destaca por conservar recetas familiares transmitidas por generaciones.">
+        <h3>Casa Abuela</h3>
+        <p>⭐ 4.8</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="restaurante"
+           data-rating="4.5"
+           data-nombre="Mesón de Analco"
+           data-horario="10:00 AM - 11:00 PM"
+           data-costo="$250 - $450 MXN"
+           data-direccion="Barrio Analco"
+           data-info="Restaurante histórico con ambiente tradicional y cocina regional."
+           data-curiosidad="Se ubica en uno de los barrios más antiguos de la ciudad.">
+        <h3>Mesón de Analco</h3>
+        <p>⭐ 4.5</p>
+      </div>
+
+      <!-- MUSEOS -->
+      <div class="lugar-card"
+           data-categoria="museo"
+           data-rating="5.0"
+           data-nombre="Museo Francisco Villa"
+           data-horario="10:00 AM - 6:00 PM"
+           data-costo="$15 MXN"
+           data-direccion="Centro Histórico"
+           data-info="Museo dedicado a la vida y legado de Francisco Villa."
+           data-curiosidad="Está ubicado en el antiguo Palacio de Gobierno de Durango.">
+        <h3>Museo Francisco Villa</h3>
+        <p>⭐ 5.0</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="museo"
+           data-rating="4.8"
+           data-nombre="Museo de Arqueología Ganot-Peschard"
+           data-horario="10:00 AM - 5:00 PM"
+           data-costo="Entrada libre"
+           data-direccion="Centro Histórico"
+           data-info="Exhibe piezas arqueológicas e historia prehispánica de la región."
+           data-curiosidad="Cuenta con colecciones únicas del norte de México.">
+        <h3>Museo de Arqueología Ganot-Peschard</h3>
+        <p>⭐ 4.8</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="museo"
+           data-rating="4.5"
+           data-nombre="Museo Regional de Durango"
+           data-horario="9:00 AM - 5:00 PM"
+           data-costo="$20 MXN"
+           data-direccion="Centro Histórico"
+           data-info="Museo enfocado en la historia, cultura y tradiciones del estado."
+           data-curiosidad="Resguarda documentos y objetos históricos de gran valor.">
+        <h3>Museo Regional de Durango</h3>
+        <p>⭐ 4.5</p>
+      </div>
+
+      <!-- CULTURALES -->
+      <div class="lugar-card"
+           data-categoria="cultural"
+           data-rating="5.0"
+           data-nombre="Teatro Ricardo Castro"
+           data-horario="10:00 AM - 8:00 PM"
+           data-costo="$100 - $500 MXN según evento"
+           data-direccion="Centro Histórico"
+           data-info="Principal recinto cultural para conciertos, obras y eventos artísticos."
+           data-curiosidad="Su arquitectura es considerada una de las más bellas del norte del país.">
+        <h3>Teatro Ricardo Castro</h3>
+        <p>⭐ 5.0</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="cultural"
+           data-rating="4.7"
+           data-nombre="Plaza de Armas"
+           data-horario="Abierto las 24 horas"
+           data-costo="Entrada libre"
+           data-direccion="Centro Histórico"
+           data-info="Plaza principal rodeada de edificios históricos y espacios culturales."
+           data-curiosidad="Es el punto de encuentro más tradicional de la ciudad.">
+        <h3>Plaza de Armas</h3>
+        <p>⭐ 4.7</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="cultural"
+           data-rating="4.8"
+           data-nombre="Catedral Basílica Menor"
+           data-horario="7:00 AM - 8:00 PM"
+           data-costo="Entrada libre"
+           data-direccion="Plaza de Armas"
+           data-info="Templo religioso emblemático con arquitectura barroca y neoclásica."
+           data-curiosidad="Es uno de los símbolos más representativos de Durango.">
+        <h3>Catedral Basílica Menor</h3>
+        <p>⭐ 4.8</p>
+      </div>
+
+      <!-- ENTRETENIMIENTO -->
+      <div class="lugar-card"
+           data-categoria="entretenimiento"
+           data-rating="5.0"
+           data-nombre="Paseo del Viejo Oeste"
+           data-horario="10:00 AM - 6:00 PM"
+           data-costo="$120 - $250 MXN"
+           data-direccion="Parque Temático Durango"
+           data-info="Escenario turístico inspirado en las películas del viejo oeste."
+           data-curiosidad="Durango ha sido escenario de cientos de películas western.">
+        <h3>Paseo del Viejo Oeste</h3>
+        <p>⭐ 5.0</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="entretenimiento"
+           data-rating="4.7"
+           data-nombre="Parque Guadiana"
+           data-horario="6:00 AM - 10:00 PM"
+           data-costo="Entrada libre"
+           data-direccion="Zona Guadiana"
+           data-info="Gran parque urbano ideal para actividades recreativas y deportivas."
+           data-curiosidad="Es conocido como el pulmón verde de la ciudad.">
+        <h3>Parque Guadiana</h3>
+        <p>⭐ 4.7</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="entretenimiento"
+           data-rating="4.6"
+           data-nombre="Parque Sahuatoba"
+           data-horario="6:00 AM - 8:00 PM"
+           data-costo="Entrada libre"
+           data-direccion="Zona Sahuatoba"
+           data-info="Parque recreativo con áreas verdes, lago y espacios familiares."
+           data-curiosidad="Está conectado con el Parque Guadiana formando una gran área recreativa.">
+        <h3>Parque Sahuatoba</h3>
+        <p>⭐ 4.6</p>
+      </div>
+
+      <!-- TURÍSTICOS -->
+      <div class="lugar-card"
+           data-categoria="turistico"
+           data-rating="5.0"
+           data-nombre="Centro Histórico de Durango"
+           data-horario="Abierto las 24 horas"
+           data-costo="Entrada libre"
+           data-direccion="Centro de Durango"
+           data-info="Zona histórica con edificios coloniales, museos y restaurantes."
+           data-curiosidad="Cuenta con cientos de edificios catalogados con valor histórico.">
+        <h3>Centro Histórico de Durango</h3>
+        <p>⭐ 5.0</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="turistico"
+           data-rating="4.8"
+           data-nombre="Teleférico de Durango"
+           data-horario="11:00 AM - 8:00 PM"
+           data-costo="$30 - $50 MXN"
+           data-direccion="Cerro de los Remedios"
+           data-info="Recorrido aéreo con vistas panorámicas de la ciudad."
+           data-curiosidad="Permite observar gran parte del centro histórico desde las alturas.">
+        <h3>Teleférico de Durango</h3>
+        <p>⭐ 4.8</p>
+      </div>
+
+      <div class="lugar-card"
+           data-categoria="turistico"
+           data-rating="4.7"
+           data-nombre="Mirador de los Remedios"
+           data-horario="8:00 AM - 10:00 PM"
+           data-costo="Entrada libre"
+           data-direccion="Cerro de los Remedios"
+           data-info="Mirador con vistas panorámicas espectaculares de la ciudad."
+           data-curiosidad="Es uno de los mejores lugares para ver el atardecer en Durango.">
+        <h3>Mirador de los Remedios</h3>
+        <p>⭐ 4.7</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     PROGRAMA DE RECOMPENSAS
+════════════════════════════════════════ -->
+<section id="recompensas" class="solo-persona">
+  <div class="container">
+    <div class="section-label">Gana mientras recorres</div>
+    <h2 class="section-title">Recompensas BarrioLink</h2>
+    <p class="section-sub">Acumula puntos visitando los lugares de nuestras rutas y canjéalos por experiencias únicas en Durango.</p>
+
+    <div class="routes-grid">
+      
+      <!-- Recompensa 1: Teleférico -->
+      <div class="reward-card">
+        <div class="reward-icon">🚠</div>
+        <h3>Viaje al Teleférico</h3>
+        <p>Canjea tus puntos por un pase sencillo para disfrutar la vista panorámica de la ciudad.</p>
+        <div class="reward-cost">💰 500 Puntos</div>
+        <button class="nav-cta">Canjear</button>
+      </div>
+
+      <!-- Recompensa 2: Feria / Eventos -->
+      <div class="reward-card">
+        <div class="reward-icon">🎟️</div>
+        <h3>Entradas para la FENADU</h3>
+        <p>Obtén entradas de cortesia para la Feria Nacional Durango.</p>
+        <div class="reward-cost">💰 1200 Puntos</div>
+        <button class="nav-cta">Canjear</button>
+      </div>
+
+      <!-- Recompensa 3: Descuentos -->
+      <div class="reward-card">
+        <div class="reward-icon">🍔</div>
+        <h3>Cupón Gastronómico</h3>
+        <p>15% de descuento en tu cuenta total en restaurantes participantes.</p>
+        <div class="reward-cost">💰 300 Puntos</div>
+        <button class="nav-cta">Canjear</button>
+      </div>
+
+      <!-- Recompensa 4: Experiencia Cultural -->
+      <div class="reward-card">
+        <div class="reward-icon">🎞️</div>
+        <h3>Tour Viejo Oeste</h3>
+        <p>2 Entradas para vivir el espectáculo de vaqueros en el Paseo del Viejo Oeste.</p>
+        <div class="reward-cost">💰 800 Puntos</div>
+        <button class="nav-cta">Canjear</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <div class="hack-badge">🏆 Reto Hack Days 2026 · Consume Local Durango</div>
+  <div class="footer-logo">
+    <img src="IMG/logo_app.png" alt="Logo BarrioLink" class="footer-logo-img">
+  </div>
+  <div class="footer-sub">Conectando el comercio local de Durango con tecnología accesible para todos</div>
+  <div class="footer-links">
+    <a href="#objetivo">Objetivo</a>
+    <a href="#features">Solución</a>
+    <a href="#registro">Registrar Negocio</a>
+    <a href="#rutas">Rutas</a>
+    <a href="#explorar">Explorar Durango</a>
+    <a href="#recompensas">Recompensas</a>
+  </div>
+  <div class="footer-copy">
+    Municipio de Durango · Dirección de Fomento Económico y Turismo · Hack Days 2026
+  </div>
+</footer>
+
+
+<!-- Toast de notificación -->
+<div id="toast"></div>
+
+
+<!-- Modal de lugar -->
+<div id="modalLugar" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2 id="modalNombre"></h2>
+    <p><strong>⭐ Calificación:</strong> <span id="modalRating"></span></p>
+    <p><strong>🕒 Horario:</strong> <span id="modalHorario"></span></p>
+    <p><strong>💰 Costo:</strong> <span id="modalCosto"></span></p>
+    <p><strong>📍 Dirección:</strong> <span id="modalDireccion"></span></p>
+    <p><strong>ℹ️ Información:</strong></p>
+    <p id="modalInfo"></p>
+  </div>
+</div>
+
+
+<!-- ── Scripts ── -->
+<script src="JS/validaciones.js"></script>
+
+<script>
+  // Cambio de vista entre Ciudadano y Negocio
+  function cambiarVista(tipo) {
+    const elementosPersona = document.querySelectorAll('.solo-persona');
+    const elementosNegocio = document.querySelectorAll('.solo-negocio');
+
+    if (tipo === 'negocio') {
+      elementosPersona.forEach(el => el.style.display = 'none');
+      elementosNegocio.forEach(el => el.style.display = '');
+    } else {
+      elementosPersona.forEach(el => el.style.display = '');
+      elementosNegocio.forEach(el => el.style.display = 'none');
+    }
+  }
+
+  // Toggle de rutas (mostrar/ocultar detalles)
+  function toggleRoute(element) {
+    const details = element.querySelector('.route-details');
+    const isVisible = details.style.display === 'block';
+    document.querySelectorAll('.route-details').forEach(el => el.style.display = 'none');
+    details.style.display = isVisible ? 'none' : 'block';
+  }
+
+  // Asistente de voz (placeholder - puedes implementar con Web Speech API)
+  function toggleVoice() {
+    const btn = document.getElementById('voiceBtn');
+    const status = document.getElementById('voiceStatus');
+    btn.classList.toggle('active');
+    
+    if (btn.classList.contains('active')) {
+      status.textContent = 'Escuchando... habla ahora';
+    } else {
+      status.textContent = 'Haz clic para registrarte con tu voz';
+    }
+  }
+
+  // Inicializar vista por defecto (Ciudadano)
+  document.addEventListener('DOMContentLoaded', () => {
+    cambiarVista('persona');
+  });
+</script>
+
+</body>
+</html>
